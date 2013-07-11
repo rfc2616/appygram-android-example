@@ -2,10 +2,7 @@ package com.appygram.android.example;
 
 import java.io.IOException;
 import java.io.OutputStream;
-import java.io.UnsupportedEncodingException;
 import java.net.URL;
-import java.net.URLEncoder;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,6 +16,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.TextView;
+
+import com.google.gson.Gson;
 
 public class MainActivity extends Activity {
 
@@ -63,16 +62,8 @@ public class MainActivity extends Activity {
 				HttpsURLConnection conn = (HttpsURLConnection) url.openConnection();
 				conn.setDoOutput(true);
 				conn.setRequestMethod("POST");
-				conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
-				List<String> httpParams = new ArrayList<String>();
-				for(Map.Entry<String,String> p : params.entrySet()){
-					try {
-						httpParams.add(p.getKey() + "=" + URLEncoder.encode(p.getValue(),"UTF-8"));
-					} catch (UnsupportedEncodingException impossible) {
-						throw new Error(impossible); // UTF-8 should be present
-					}
-				}
-				String input = join(httpParams,"&");
+				conn.setRequestProperty("Content-Type", "application/json");
+				String input = new Gson().toJson(params);
 				Log.i("Appygram Example","Sending: "+input);
 				OutputStream os = conn.getOutputStream();
 				os.write(input.getBytes());
