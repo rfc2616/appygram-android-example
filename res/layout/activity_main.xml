@@ -7,6 +7,12 @@
     android:orientation="vertical"
     tools:context=".MainActivity" >
 
+    <Spinner
+        android:id="@+id/editTopic"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    </Spinner>
+    
     <EditText
         android:id="@+id/editName"
         android:layout_width="match_parent"
